@@ -1,0 +1,24 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <OutputType>WinExe</OutputType>
+    <TargetFramework>net8.0-windows</TargetFramework>
+    <RootNamespace>Exodus_Hub_Kill_Tracker</RootNamespace>
+    <Nullable>enable</Nullable>
+    <ImplicitUsings>enable</ImplicitUsings>
+    <UseWPF>true</UseWPF>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <None Remove="Resources\animegirl.png" />
+    <None Remove="Resources\exodus-light.ico" />
+    <None Remove="Resources\exodus-removebg-preview.png" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Resource Include="Resources\animegirl.png" />
+    <Resource Include="Resources\exodus-light.ico" />
+    <Resource Include="Resources\exodus-removebg-preview.png" />
+  </ItemGroup>
+
+</Project>
