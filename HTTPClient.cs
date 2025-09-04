@@ -15,8 +15,8 @@ namespace ExodusHub_Kill_Tracker
         // Add public static property to expose version
         public static string Version => CLIENT_VERSION;
 
-        public HTTPClient(string apiUrl = "http://localhost:3000/api", string authToken = null)
-        //public HTTPClient(string apiUrl = "https://sc.exoduspmc.org/api", string authToken = null)
+        //public HTTPClient(string apiUrl = "http://localhost:3000/api", string authToken = null)
+        public HTTPClient(string apiUrl = "https://sc.exoduspmc.org/api", string authToken = null)
         {
             _client = new HttpClient();
             _apiBaseUrl = apiUrl.TrimEnd('/');

@@ -72,70 +72,92 @@
     <Grid x:Name="MainGrid">
         <Border Background="{StaticResource SecondaryBrush}" CornerRadius="18" Padding="32" Margin="10,10,10,10" MouseLeftButtonDown="Border_MouseLeftButtonDown">
             <Grid Margin="0,0,6,80">
-                <Grid.RowDefinitions>
-                    <RowDefinition Height="Auto"/>
-                    <RowDefinition Height="*"/>
-                    <!-- Add a row for the status message at the bottom -->
-                    <RowDefinition Height="Auto"/>
-                </Grid.RowDefinitions>
-                <!-- Add VersionTextBlock inside the border, top-left of the inner grid -->
-                <TextBlock x:Name="VersionTextBlock"
-                           Text="vB1"
-                           FontSize="10"
-                           FontWeight="Normal"
-                           Foreground="{StaticResource TextBrush}"
-                           HorizontalAlignment="Left"
-                           VerticalAlignment="Top"
-                           Margin="389,22,0,0"
-                           Opacity="0.7"
-                           Grid.Row="0"/>
-                <!-- Logo and Title area -->
-                <StackPanel Grid.Row="0" Orientation="Horizontal" HorizontalAlignment="Center" Margin="0,0,0,24">
-                    <Image Width="48" Height="48" VerticalAlignment="Center" Source="Resources/exodus-removebg-preview.png"/>
-                    <TextBlock Text="Exodus Kill Tracker" FontWeight="Bold" FontSize="22"
-                               Margin="16,0,0,0" VerticalAlignment="Center"/>
-                </StackPanel>
-                <!-- Main content area -->
-                <StackPanel Grid.Row="1" VerticalAlignment="Top" HorizontalAlignment="Center" Width="470" Height="381">
-                    <TextBlock Text="Game.log Path:" FontSize="15" FontWeight="SemiBold"/>
-                    <!-- Change to horizontal StackPanel for TextBox and Browse button -->
-                    <StackPanel Orientation="Horizontal" Margin="0,5,0,15">
-                        <TextBox x:Name="LogPathTextBox" Height="32" VerticalAlignment="Center" Width="340"/>
-                        <Button x:Name="BrowseLogButton" Content="Browse..." Width="121" Height="24"
-                                VerticalAlignment="Center" Click="BrowseLogButton_Click" Margin="10,0,0,0"/>
+                <!-- Overlay for top-right window controls -->
+                <Grid>
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="Auto"/>
+                        <RowDefinition Height="*"/>
+                    </Grid.RowDefinitions>
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="*"/>
+                        <ColumnDefinition Width="Auto"/>
+                    </Grid.ColumnDefinitions>
+                    <!-- Place close and minimize buttons in top-right -->
+                    <StackPanel Orientation="Horizontal" Grid.Row="0" Grid.Column="1" HorizontalAlignment="Right" VerticalAlignment="Top" Margin="0,0,0,0">
+                        <Button x:Name="CloseButton" Content="-" Click="CloseButton_Click"
+                                Width="31" Height="32"
+                                FontSize="14" FontWeight="Bold"
+                                ToolTip="Minimize Window"/>
+                        <Button x:Name="ExitButton" Content="✕" Click="ExitButton_Click"
+                                Width="31" Height="32"
+                                FontSize="14" FontWeight="Bold"
+                                ToolTip="Close Application"/>
                     </StackPanel>
+                    <!-- Main content grid below, spanning both columns -->
+                    <Grid Grid.Row="1" Grid.ColumnSpan="2">
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="Auto"/>
+                            <RowDefinition Height="*"/>
+                            <RowDefinition Height="Auto"/>
+                        </Grid.RowDefinitions>
+                        <!-- Add VersionTextBlock inside the border, top-left of the inner grid -->
+                        <TextBlock x:Name="VersionTextBlock"
+                                   Text="vB1"
+                                   FontSize="10"
+                                   FontWeight="Normal"
+                                   Foreground="{StaticResource TextBrush}"
+                                   HorizontalAlignment="Left"
+                                   VerticalAlignment="Top"
+                                   Margin="389,22,0,0"
+                                   Opacity="0.7"
+                                   Grid.Row="0"/>
+                        <!-- Logo and Title area -->
+                        <StackPanel Grid.Row="0" Orientation="Horizontal" HorizontalAlignment="Center" Margin="0,0,0,24">
+                            <Image Width="48" Height="48" VerticalAlignment="Center" Source="Resources/exodus-removebg-preview.png"/>
+                            <TextBlock Text="Exodus Kill Tracker" FontWeight="Bold" FontSize="22"
+                                       Margin="16,0,0,0" VerticalAlignment="Center"/>
+                        </StackPanel>
+                        <!-- Main content area -->
+                        <StackPanel Grid.Row="1" VerticalAlignment="Top" HorizontalAlignment="Center" Width="470" Height="381">
+                            <TextBlock Text="Game.log Path:" FontSize="15" FontWeight="SemiBold"/>
+                            <!-- Change to horizontal StackPanel for TextBox and Browse button -->
+                            <StackPanel Orientation="Horizontal" Margin="0,5,0,15">
+                                <TextBox x:Name="LogPathTextBox" Height="32" VerticalAlignment="Center" Width="340"/>
+                                <Button x:Name="BrowseLogButton" Content="Browse..." Width="69" Height="22"
+                                        Click="BrowseLogButton_Click"/>
+                            </StackPanel>
 
-                    <TextBlock Text="Username:" FontSize="15" FontWeight="SemiBold"/>
-                    <TextBox x:Name="UsernameTextBox"/>
-                    <TextBlock Text="API Token:" FontSize="15" FontWeight="SemiBold"/>
-                    <TextBox x:Name="TokenTextBox"/>
+                            <TextBlock Text="Username:" FontSize="15" FontWeight="SemiBold"/>
+                            <TextBox x:Name="UsernameTextBox"/>
+                            <TextBlock Text="API Token:" FontSize="15" FontWeight="SemiBold"/>
+                            <TextBox x:Name="TokenTextBox"/>
 
-                    <StackPanel Orientation="Horizontal" HorizontalAlignment="Center" Margin="0,10,0,0">
-                        <Button x:Name="CloseButton" Content="Close" Click="CloseButton_Click" Width="120" Height="32"/>
-                        <Button x:Name="StartButton" Content="Start Tracking" Click="StartButton_Click" Width="180" Height="38" FontSize="16" Margin="10,0,0,0" BorderThickness="2,2,2,2">
-                            <Button.BorderBrush>
-                                <LinearGradientBrush EndPoint="0.5,1" StartPoint="0.5,0">
-                                    <GradientStop Color="#FFD69609"/>
-                                    <GradientStop Color="#FFFB0000" Offset="1"/>
-                                </LinearGradientBrush>
-                            </Button.BorderBrush>
-                        </Button>
-                        <Button x:Name="ToggleBackgroundButton" Content="Toggle Background" Click="ToggleBackgroundButton_Click" Width="120" Height="32"/>
-
-                    </StackPanel>
-                </StackPanel>
-                <!-- Move StatusTextBlock inside the border, at the bottom row -->
-                <TextBlock x:Name="StatusTextBlock"
-                           Grid.Row="2"
-                           Margin="0,12,0,0"
-                           Foreground="{StaticResource TextBrush}"
-                           FontWeight="Bold"
-                           FontSize="14"
-                           TextAlignment="Center"
-                           HorizontalAlignment="Center"
-                           VerticalAlignment="Bottom"
-                           TextWrapping="Wrap"
-                           Visibility="Visible"/>
+                            <StackPanel Orientation="Horizontal" HorizontalAlignment="Center" Margin="0,10,0,0">
+                                <Button x:Name="StartButton" Content="Start Tracking" Click="StartButton_Click"
+                                        Width="329" Height="38" FontSize="16" BorderThickness="2,2,2,2">
+                                    <Button.BorderBrush>
+                                        <LinearGradientBrush EndPoint="0.5,1" StartPoint="0.5,0">
+                                            <GradientStop Color="#FFD69609"/>
+                                            <GradientStop Color="#FFFB0000" Offset="1"/>
+                                        </LinearGradientBrush>
+                                    </Button.BorderBrush>
+                                </Button>
+                            </StackPanel>
+                        </StackPanel>
+                        <!-- Move StatusTextBlock inside the border, at the bottom row -->
+                        <TextBlock x:Name="StatusTextBlock"
+                                   Grid.Row="2"
+                                   Margin="0,12,0,0"
+                                   Foreground="{StaticResource TextBrush}"
+                                   FontWeight="Bold"
+                                   FontSize="14"
+                                   TextAlignment="Center"
+                                   HorizontalAlignment="Center"
+                                   VerticalAlignment="Bottom"
+                                   TextWrapping="Wrap"
+                                   Visibility="Visible"/>
+                    </Grid>
+                </Grid>
             </Grid>
         </Border>
     </Grid>

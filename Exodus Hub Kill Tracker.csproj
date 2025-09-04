@@ -7,18 +7,32 @@
     <Nullable>enable</Nullable>
     <ImplicitUsings>enable</ImplicitUsings>
     <UseWPF>true</UseWPF>
+    <Platforms>AnyCPU;x64;x86</Platforms>
   </PropertyGroup>
 
   <ItemGroup>
-    <None Remove="Resources\animegirl.png" />
     <None Remove="Resources\exodus-light.ico" />
     <None Remove="Resources\exodus-removebg-preview.png" />
   </ItemGroup>
 
   <ItemGroup>
-    <Resource Include="Resources\animegirl.png" />
     <Resource Include="Resources\exodus-light.ico" />
     <Resource Include="Resources\exodus-removebg-preview.png" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Compile Update="Properties\Settings.Designer.cs">
+      <DesignTimeSharedInput>True</DesignTimeSharedInput>
+      <AutoGen>True</AutoGen>
+      <DependentUpon>Settings.settings</DependentUpon>
+    </Compile>
+  </ItemGroup>
+
+  <ItemGroup>
+    <None Update="Properties\Settings.settings">
+      <Generator>SettingsSingleFileGenerator</Generator>
+      <LastGenOutput>Settings.Designer.cs</LastGenOutput>
+    </None>
   </ItemGroup>
 
 </Project>
