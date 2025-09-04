@@ -10,6 +10,7 @@ using System.Windows.Navigation;
 using System.Windows.Shapes;
 using System.Collections.Generic;
 using System.Threading.Tasks;
+using System.Diagnostics; // Add if not already present
 
 using ExodusHubKillTrackerWPF;
 
@@ -20,6 +21,9 @@ namespace ExodusHubKillTrackerWPF;
 /// </summary>
 public partial class MainWindow : Window
 {
+    private bool _advancedViewEnabled = false;
+    private readonly StringBuilder _advancedLog = new();
+
     public MainWindow()
     {
         InitializeComponent();
@@ -34,6 +38,8 @@ public partial class MainWindow : Window
 
         // Subscribe to the Loaded event to auto-start tracking
         this.Loaded += MainWindow_Loaded;
+
+        AdvancedViewBorder.Visibility = Visibility.Collapsed;
     }
 
     private async void MainWindow_Loaded(object sender, RoutedEventArgs e)
@@ -84,7 +90,7 @@ public partial class MainWindow : Window
                 return;
             }
 
-            StatusTextBlock.Text = "Auto-started! Monitoring log...";
+            StatusTextBlock.Text = "Auto-start success: SC running and API Connected! Monitoring log...";
             StartLogMonitoring(logPath, username);
         }
         catch (Exception ex)
@@ -232,7 +238,7 @@ public partial class MainWindow : Window
                                         });
                                         continue;
                                     }
-                                    var (success, msg) = await _httpClient.SendKillDataWithDetailsAsync(killData);
+                                    var (success, msg) = await SendKillDataWithDetailsAndLogAsync(killData);
                                     Dispatcher.Invoke(() =>
                                     {
                                         StatusTextBlock.Text = success ? $"Kill sent: {killData.Killer} -> {killData.Victim}" : $"Error: {msg}";
@@ -254,6 +260,57 @@ public partial class MainWindow : Window
         }, token);
     }
 
+    private async Task<(bool, string)> SendKillDataWithDetailsAndLogAsync(ExodusHub_Kill_Tracker.KillData killData)
+    {
+        string json = System.Text.Json.JsonSerializer.Serialize(killData, new System.Text.Json.JsonSerializerOptions { WriteIndented = true });
+        LogAdvanced("API Request", json);
+        var (success, response) = await _httpClient.SendKillDataWithDetailsAsync(killData);
+        LogAdvanced("API Response", response ?? "(null)");
+        return (success, response);
+    }
+
+    private void LogAdvanced(string label, string data)
+    {
+        if (_advancedLog.Length > 8000)
+            _advancedLog.Clear(); // Prevent unbounded growth
+        _advancedLog.AppendLine($"[{DateTime.Now:HH:mm:ss}] {label}:");
+        _advancedLog.AppendLine(data);
+        _advancedLog.AppendLine(new string('-', 40));
+        if (_advancedViewEnabled)
+        {
+            Dispatcher.Invoke(() => {
+                AdvancedViewTextBox.Text = _advancedLog.ToString();
+                AdvancedViewTextBox.ScrollToEnd();
+            });
+        }
+    }
+
+    private void AdvancedViewButton_Click(object sender, RoutedEventArgs e)
+    {
+        _advancedViewEnabled = !_advancedViewEnabled;
+        AdvancedViewBorder.Visibility = _advancedViewEnabled ? Visibility.Visible : Visibility.Collapsed;
+        if (_advancedViewEnabled)
+            AdvancedViewTextBox.Text = _advancedLog.ToString();
+    }
+
+    private void CloseAdvancedViewButton_Click(object sender, RoutedEventArgs e)
+    {
+        _advancedViewEnabled = false;
+        AdvancedViewBorder.Visibility = Visibility.Collapsed;
+    }
+
+    // Optional: Allow Escape key to close advanced view
+    protected override void OnPreviewKeyDown(KeyEventArgs e)
+    {
+        if (_advancedViewEnabled && e.Key == Key.Escape)
+        {
+            _advancedViewEnabled = false;
+            AdvancedViewBorder.Visibility = Visibility.Collapsed;
+            e.Handled = true;
+        }
+        base.OnPreviewKeyDown(e);
+    }
+
     private void TestStatusButton_Click(object sender, RoutedEventArgs e)
     {
         StatusTextBlock.Text = $"StatusTextBlock test at {DateTime.Now:T}";
@@ -271,5 +328,22 @@ public partial class MainWindow : Window
         // Cancel any ongoing log monitoring
         _logMonitorCts?.Cancel();
         Close();
+    }
+
+    private void LogoButton_Click(object sender, RoutedEventArgs e)
+    {
+        try
+        {
+            ProcessStartInfo psi = new ProcessStartInfo
+            {
+                FileName = "https://sc.exoduspmc.org/kills",
+                UseShellExecute = true
+            };
+            Process.Start(psi);
+        }
+        catch
+        {
+            // Optionally handle error (e.g., show a message)
+        }
     }
 }

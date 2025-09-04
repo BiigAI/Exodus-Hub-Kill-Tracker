@@ -6,49 +6,140 @@
         xmlns:local="clr-namespace:ExodusHubKillTrackerWPF"
         mc:Ignorable="d"
         Title="Exodus Kill Tracker"
-        Height="600" Width="600"
+        Height="680" Width="640"
         Icon="Resources/exodus-light.ico"
-        MinWidth="600" MinHeight="600"
+        MinWidth="640" MinHeight="680"
         Background="Transparent"
         WindowStartupLocation="CenterScreen"
         WindowStyle="None"
         AllowsTransparency="True"
         WindowState="Normal">
+    
     <Window.Resources>
-        <!-- Color Resources -->
-        <Color x:Key="PrimaryColor">#821e00</Color>
-        <Color x:Key="SecondaryColor">#2a120c</Color>
-        <Color x:Key="PrimaryColorHover">#661700</Color>
-        <!-- Darker for hover -->
-        <SolidColorBrush x:Key="PrimaryBrush" Color="{StaticResource PrimaryColor}"/>
-        <SolidColorBrush x:Key="PrimaryBrushHover" Color="{StaticResource PrimaryColorHover}"/>
-        <SolidColorBrush x:Key="SecondaryBrush" Color="{StaticResource SecondaryColor}"/>
-        <SolidColorBrush x:Key="TextBrush" Color="White"/>
-        <!-- TextBlock Style -->
-        <Style TargetType="TextBlock">
-            <Setter Property="Foreground" Value="{StaticResource TextBrush}"/>
-            <Setter Property="FontFamily" Value="Segoe UI"/>
+        <!-- Modern TextBlock Styles -->
+        <Style x:Key="HeadingStyle" TargetType="TextBlock">
+            <Setter Property="Foreground" Value="{StaticResource TextPrimaryBrush}"/>
+            <Setter Property="FontFamily" Value="Segoe UI Variable Display, Segoe UI, Arial"/>
+            <Setter Property="FontWeight" Value="SemiBold"/>
         </Style>
-        <!-- TextBox Style -->
+        
+        <Style x:Key="LabelStyle" TargetType="TextBlock">
+            <Setter Property="Foreground" Value="{StaticResource TextSecondaryBrush}"/>
+            <Setter Property="FontFamily" Value="Segoe UI Variable Text, Segoe UI, Arial"/>
+            <Setter Property="FontWeight" Value="Medium"/>
+            <Setter Property="Margin" Value="0,0,0,8"/>
+        </Style>
+        
+        <Style x:Key="BodyStyle" TargetType="TextBlock">
+            <Setter Property="Foreground" Value="{StaticResource TextPrimaryBrush}"/>
+            <Setter Property="FontFamily" Value="Segoe UI Variable Text, Segoe UI, Arial"/>
+        </Style>
+        
+        <Style x:Key="MutedStyle" TargetType="TextBlock">
+            <Setter Property="Foreground" Value="{StaticResource TextMutedBrush}"/>
+            <Setter Property="FontFamily" Value="Segoe UI Variable Text, Segoe UI, Arial"/>
+            <Setter Property="FontSize" Value="11"/>
+        </Style>
+        
+        <!-- Modern TextBox Style -->
         <Style TargetType="TextBox">
-            <Setter Property="Background" Value="{StaticResource SecondaryBrush}"/>
-            <Setter Property="Foreground" Value="{StaticResource TextBrush}"/>
-            <Setter Property="BorderBrush" Value="{StaticResource PrimaryBrush}"/>
-            <Setter Property="FontFamily" Value="Segoe UI"/>
-            <Setter Property="Padding" Value="6"/>
-            <Setter Property="Margin" Value="0,5,0,15"/>
+            <Setter Property="Background" Value="{StaticResource SurfaceBrush}"/>
+            <Setter Property="Foreground" Value="#FFF"/>
+            <Setter Property="CaretBrush" Value="#FFF"/>
+            <Setter Property="SelectionBrush" Value="{StaticResource PrimaryBrush}"/>
+            <Setter Property="BorderBrush" Value="{StaticResource BorderBrush}"/>
+            <Setter Property="FontFamily" Value="Segoe UI Variable Text, Segoe UI, Arial"/>
+            <Setter Property="FontSize" Value="14"/>
+            <Setter Property="Padding" Value="12,10"/>
+            <Setter Property="Margin" Value="0,0,0,20"/>
             <Setter Property="BorderThickness" Value="1"/>
+            <Setter Property="Height" Value="44"/>
+            <Setter Property="VerticalContentAlignment" Value="Center"/>
+            <Setter Property="Template">
+                <Setter.Value>
+                    <ControlTemplate TargetType="TextBox">
+                        <Border Name="Border" 
+                                Background="{TemplateBinding Background}"
+                                BorderBrush="{TemplateBinding BorderBrush}"
+                                BorderThickness="{TemplateBinding BorderThickness}"
+                                CornerRadius="8">
+                            <Border.Effect>
+                                <DropShadowEffect Color="#000000" Direction="270" ShadowDepth="1" 
+                                                  BlurRadius="3" Opacity="0.1"/>
+                            </Border.Effect>
+                            <ScrollViewer x:Name="PART_ContentHost" 
+                                          Padding="{TemplateBinding Padding}"
+                                          Focusable="False"
+                                          HorizontalScrollBarVisibility="Hidden"
+                                          VerticalScrollBarVisibility="Hidden"
+                                          BorderThickness="0"
+                                          Background="Transparent"/>
+                        </Border>
+                        <ControlTemplate.Triggers>
+                            <Trigger Property="IsFocused" Value="True">
+                                <Setter TargetName="Border" Property="BorderBrush" Value="{StaticResource PrimaryBrush}"/>
+                                <Setter TargetName="Border" Property="Background" Value="{StaticResource SurfaceHoverBrush}"/>
+                            </Trigger>
+                            <Trigger Property="IsMouseOver" Value="True">
+                                <Setter TargetName="Border" Property="BorderBrush" Value="{StaticResource TextMutedBrush}"/>
+                            </Trigger>
+                        </ControlTemplate.Triggers>
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
         </Style>
-        <!-- Button Style with hover effect -->
-        <Style TargetType="Button">
+        
+        <!-- Modern Button Styles -->
+        <Style x:Key="PrimaryButtonStyle" TargetType="Button">
             <Setter Property="Background" Value="{StaticResource PrimaryBrush}"/>
-            <Setter Property="Foreground" Value="{StaticResource TextBrush}"/>
-            <Setter Property="FontWeight" Value="Bold"/>
-            <Setter Property="FontFamily" Value="Segoe UI"/>
-            <Setter Property="BorderBrush" Value="{StaticResource PrimaryBrush}"/>
+            <Setter Property="Foreground" Value="White"/>
+            <Setter Property="FontWeight" Value="SemiBold"/>
+            <Setter Property="FontFamily" Value="Segoe UI Variable Display, Segoe UI, Arial"/>
+            <Setter Property="FontSize" Value="14"/>
             <Setter Property="BorderThickness" Value="0"/>
-            <Setter Property="Padding" Value="8,4"/>
-            <Setter Property="Margin" Value="10,0,0,0"/>
+            <Setter Property="Padding" Value="24,12"/>
+            <Setter Property="Cursor" Value="Hand"/>
+            <Setter Property="Height" Value="48"/>
+            <Setter Property="Template">
+                <Setter.Value>
+                    <ControlTemplate TargetType="Button">
+                        <Border Background="{TemplateBinding Background}"
+                                CornerRadius="12"
+                                RenderOptions.BitmapScalingMode="HighQuality">
+                            <Border.Effect>
+                                <DropShadowEffect Color="#6366F1" Direction="270" ShadowDepth="3" 
+                                                  BlurRadius="12" Opacity="0.4" RenderingBias="Quality"/>
+                            </Border.Effect>
+                            
+                            <Grid>
+                                <!-- Subtle highlight overlay -->
+                                <Border Background="White" Opacity="0.1" CornerRadius="12" Margin="1,1,1,8"/>
+                                <!-- Content -->
+                                <ContentPresenter HorizontalAlignment="Center" VerticalAlignment="Center" Margin="0,0,0,1"/>
+                            </Grid>
+                        </Border>
+                        <ControlTemplate.Triggers>
+                            <Trigger Property="IsMouseOver" Value="True">
+                                <Setter Property="Background" Value="{StaticResource PrimaryHoverBrush}"/>
+                            </Trigger>
+                            <Trigger Property="IsPressed" Value="True">
+                                <Setter Property="Background" Value="{StaticResource PrimaryActiveBrush}"/>
+                            </Trigger>
+                        </ControlTemplate.Triggers>
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
+        </Style>
+        
+        <Style x:Key="SecondaryButtonStyle" TargetType="Button">
+            <Setter Property="Background" Value="{StaticResource SurfaceBrush}"/>
+            <Setter Property="Foreground" Value="{StaticResource TextPrimaryBrush}"/>
+            <Setter Property="FontWeight" Value="Medium"/>
+            <Setter Property="FontFamily" Value="Segoe UI Variable Text, Segoe UI, Arial"/>
+            <Setter Property="FontSize" Value="13"/>
+            <Setter Property="BorderBrush" Value="{StaticResource BorderBrush}"/>
+            <Setter Property="BorderThickness" Value="1"/>
+            <Setter Property="Padding" Value="16,8"/>
             <Setter Property="Cursor" Value="Hand"/>
             <Setter Property="Template">
                 <Setter.Value>
@@ -59,105 +150,265 @@
                                 BorderThickness="{TemplateBinding BorderThickness}">
                             <ContentPresenter HorizontalAlignment="Center" VerticalAlignment="Center"/>
                         </Border>
+                        <ControlTemplate.Triggers>
+                            <Trigger Property="IsMouseOver" Value="True">
+                                <Setter Property="Background" Value="{StaticResource SurfaceHoverBrush}"/>
+                                <Setter Property="BorderBrush" Value="{StaticResource TextMutedBrush}"/>
+                            </Trigger>
+                        </ControlTemplate.Triggers>
                     </ControlTemplate>
                 </Setter.Value>
             </Setter>
-            <Style.Triggers>
-                <Trigger Property="IsMouseOver" Value="True">
-                    <Setter Property="Background" Value="{StaticResource PrimaryBrushHover}"/>
-                </Trigger>
-            </Style.Triggers>
+        </Style>
+        
+        <!-- Window Control Button Style -->
+        <Style x:Key="WindowControlButtonStyle" TargetType="Button">
+            <Setter Property="Background" Value="Transparent"/>
+            <Setter Property="Foreground" Value="{StaticResource TextMutedBrush}"/>
+            <Setter Property="FontFamily" Value="Segoe Fluent Icons, Segoe UI Symbol"/>
+            <Setter Property="FontSize" Value="14"/>
+            <Setter Property="BorderThickness" Value="0"/>
+            <Setter Property="Width" Value="36"/>
+            <Setter Property="Height" Value="36"/>
+            <Setter Property="Cursor" Value="Hand"/>
+            <Setter Property="Template">
+                <Setter.Value>
+                    <ControlTemplate TargetType="Button">
+                        <Border Background="{TemplateBinding Background}" CornerRadius="6">
+                            <ContentPresenter HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                        </Border>
+                        <ControlTemplate.Triggers>
+                            <Trigger Property="IsMouseOver" Value="True">
+                                <Setter Property="Background" Value="{StaticResource SurfaceHoverBrush}"/>
+                                <Setter Property="Foreground" Value="{StaticResource TextPrimaryBrush}"/>
+                            </Trigger>
+                        </ControlTemplate.Triggers>
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
+        </Style>
+
+        <!-- LogoButton Style: No focus/blue box, scaling image on hover -->
+        <Style x:Key="LogoButtonStyle" TargetType="Button">
+            <Setter Property="Background" Value="Transparent"/>
+            <Setter Property="BorderThickness" Value="0"/>
+            <Setter Property="Padding" Value="0"/>
+            <Setter Property="Cursor" Value="Hand"/>
+            <Setter Property="Focusable" Value="False"/>
+            <Setter Property="Template">
+                <Setter.Value>
+                    <ControlTemplate TargetType="Button">
+                        <Grid>
+                            <Image x:Name="LogoImage"
+                                   Width="40" Height="40"
+                                   Source="Resources/exodus-removebg-preview.png"
+                                   RenderTransformOrigin="0.5,0.5">
+                                <Image.RenderTransform>
+                                    <ScaleTransform ScaleX="1" ScaleY="1"/>
+                                </Image.RenderTransform>
+                            </Image>
+                        </Grid>
+                        <ControlTemplate.Triggers>
+                            <Trigger Property="IsMouseOver" Value="True">
+                                <Setter TargetName="LogoImage" Property="RenderTransform">
+                                    <Setter.Value>
+                                        <ScaleTransform ScaleX="1.15" ScaleY="1.15"/>
+                                    </Setter.Value>
+                                </Setter>
+                            </Trigger>
+                            <Trigger Property="IsPressed" Value="True">
+                                <Setter TargetName="LogoImage" Property="RenderTransform">
+                                    <Setter.Value>
+                                        <ScaleTransform ScaleX="1.08" ScaleY="1.08"/>
+                                    </Setter.Value>
+                                </Setter>
+                            </Trigger>
+                        </ControlTemplate.Triggers>
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
         </Style>
     </Window.Resources>
+    
     <Grid x:Name="MainGrid">
-        <Border Background="{StaticResource SecondaryBrush}" CornerRadius="18" Padding="32" Margin="10,10,10,10" MouseLeftButtonDown="Border_MouseLeftButtonDown">
-            <Grid Margin="0,0,6,80">
-                <!-- Overlay for top-right window controls -->
-                <Grid>
-                    <Grid.RowDefinitions>
-                        <RowDefinition Height="Auto"/>
-                        <RowDefinition Height="*"/>
-                    </Grid.RowDefinitions>
-                    <Grid.ColumnDefinitions>
-                        <ColumnDefinition Width="*"/>
-                        <ColumnDefinition Width="Auto"/>
-                    </Grid.ColumnDefinitions>
-                    <!-- Place close and minimize buttons in top-right -->
-                    <StackPanel Orientation="Horizontal" Grid.Row="0" Grid.Column="1" HorizontalAlignment="Right" VerticalAlignment="Top" Margin="0,0,0,0">
-                        <Button x:Name="CloseButton" Content="-" Click="CloseButton_Click"
-                                Width="31" Height="32"
-                                FontSize="14" FontWeight="Bold"
-                                ToolTip="Minimize Window"/>
-                        <Button x:Name="ExitButton" Content="✕" Click="ExitButton_Click"
-                                Width="31" Height="32"
-                                FontSize="14" FontWeight="Bold"
-                                ToolTip="Close Application"/>
-                    </StackPanel>
-                    <!-- Main content grid below, spanning both columns -->
-                    <Grid Grid.Row="1" Grid.ColumnSpan="2">
-                        <Grid.RowDefinitions>
-                            <RowDefinition Height="Auto"/>
-                            <RowDefinition Height="*"/>
-                            <RowDefinition Height="Auto"/>
-                        </Grid.RowDefinitions>
-                        <!-- Add VersionTextBlock inside the border, top-left of the inner grid -->
+        <!-- Enable high-quality rendering -->
+        <Grid.Resources>
+            <Style TargetType="Border">
+                <Setter Property="RenderOptions.BitmapScalingMode" Value="HighQuality"/>
+                <Setter Property="RenderOptions.EdgeMode" Value="Aliased"/>
+            </Style>
+        </Grid.Resources>
+        
+        <Border Background="{StaticResource SurfaceBrush}" 
+                CornerRadius="16" 
+                Margin="8"
+                MouseLeftButtonDown="Border_MouseLeftButtonDown"
+                RenderOptions.BitmapScalingMode="HighQuality"
+                RenderOptions.EdgeMode="Aliased">
+            
+            <Grid Margin="32,24,32,32">
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="Auto"/>
+                    <RowDefinition Height="Auto"/>
+                    <RowDefinition Height="*"/>
+                    <RowDefinition Height="Auto"/>
+                </Grid.RowDefinitions>
+                
+                <!-- Window Controls -->
+                <StackPanel Grid.Row="0" Orientation="Horizontal" HorizontalAlignment="Right" Margin="0,0,0,16">
+                    <Button x:Name="CloseButton" Content="&#xE949;" Click="CloseButton_Click"
+                            Style="{StaticResource WindowControlButtonStyle}"
+                            ToolTip="Minimize Window" Margin="4,0"/>
+                    <Button x:Name="ExitButton" Content="&#xE8BB;" Click="ExitButton_Click"
+                            Style="{StaticResource WindowControlButtonStyle}"
+                            ToolTip="Close Application" Margin="4,0,0,0"/>
+                </StackPanel>
+                
+                <!-- Header with Logo and Title -->
+                <StackPanel Grid.Row="1" Orientation="Horizontal" HorizontalAlignment="Center" Margin="0,0,0,40">
+                    <Border Background="{StaticResource SurfaceBrush}" 
+                            CornerRadius="12" 
+                            Padding="8"
+                            Margin="0,0,16,0">
+                        <Border.Effect>
+                            <DropShadowEffect Color="#000000" Direction="270" ShadowDepth="2" 
+                                              BlurRadius="8" Opacity="0.2"/>
+                        </Border.Effect>
+                        <!-- LogoButton with custom style -->
+                        <Button x:Name="LogoButton"
+                                Click="LogoButton_Click"
+                                ToolTip="View Exodus Killboard"
+                                Style="{StaticResource LogoButtonStyle}"/>
+                    </Border>
+                    <StackPanel VerticalAlignment="Center">
+                        <TextBlock Text="Exodus Kill Tracker" 
+                                   Style="{StaticResource HeadingStyle}"
+                                   FontSize="24" 
+                                   FontWeight="Bold"/>
                         <TextBlock x:Name="VersionTextBlock"
                                    Text="vB1"
-                                   FontSize="10"
-                                   FontWeight="Normal"
-                                   Foreground="{StaticResource TextBrush}"
-                                   HorizontalAlignment="Left"
-                                   VerticalAlignment="Top"
-                                   Margin="389,22,0,0"
-                                   Opacity="0.7"
-                                   Grid.Row="0"/>
-                        <!-- Logo and Title area -->
-                        <StackPanel Grid.Row="0" Orientation="Horizontal" HorizontalAlignment="Center" Margin="0,0,0,24">
-                            <Image Width="48" Height="48" VerticalAlignment="Center" Source="Resources/exodus-removebg-preview.png"/>
-                            <TextBlock Text="Exodus Kill Tracker" FontWeight="Bold" FontSize="22"
-                                       Margin="16,0,0,0" VerticalAlignment="Center"/>
-                        </StackPanel>
-                        <!-- Main content area -->
-                        <StackPanel Grid.Row="1" VerticalAlignment="Top" HorizontalAlignment="Center" Width="470" Height="381">
-                            <TextBlock Text="Game.log Path:" FontSize="15" FontWeight="SemiBold"/>
-                            <!-- Change to horizontal StackPanel for TextBox and Browse button -->
-                            <StackPanel Orientation="Horizontal" Margin="0,5,0,15">
-                                <TextBox x:Name="LogPathTextBox" Height="32" VerticalAlignment="Center" Width="340"/>
-                                <Button x:Name="BrowseLogButton" Content="Browse..." Width="69" Height="22"
-                                        Click="BrowseLogButton_Click"/>
-                            </StackPanel>
+                                   Style="{StaticResource MutedStyle}"
+                                   Margin="0,2,0,0"/>
+                    </StackPanel>
+                </StackPanel>
+                
+                <!-- Main Content and Advanced View Overlay -->
+                <Grid Grid.Row="2" HorizontalAlignment="Center" MaxWidth="600">
+                    <!-- Main Content StackPanel -->
+                    <StackPanel x:Name="MainContentPanel">
+                        <!-- Game Log Path Section -->
+                        <TextBlock Text="Game Log Path" Style="{StaticResource LabelStyle}" FontSize="14"/>
+                        <Grid Margin="0,0,0,20">
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="*"/>
+                                <ColumnDefinition Width="Auto"/>
+                            </Grid.ColumnDefinitions>
+                            <TextBox x:Name="LogPathTextBox" Grid.Column="0" Margin="0,0,12,0"/>
+                            <Button x:Name="BrowseLogButton" 
+                                    Content="..." 
+                                    Grid.Column="1"
+                                    Style="{StaticResource SecondaryButtonStyle}"
+                                    Click="BrowseLogButton_Click" 
+                                    Height="44"
+                                    MinWidth="80"/>
+                        </Grid>
+                        
+                        <!-- Username Section -->
+                        <TextBlock Text="Username" Style="{StaticResource LabelStyle}" FontSize="14"/>
+                        <TextBox x:Name="UsernameTextBox"/>
+                        
+                        <!-- API Token Section -->
+                        <TextBlock Text="API Token" Style="{StaticResource LabelStyle}" FontSize="14"/>
+                        <TextBox x:Name="TokenTextBox"/>
+                        
+                        <!-- Start Button Row with Advanced View Button -->
+                        <Grid Margin="0,24,0,0">
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="*"/>
+                                <ColumnDefinition Width="Auto"/>
+                            </Grid.ColumnDefinitions>
+                            <Button x:Name="StartButton" 
+                                    Content="Start Tracking" 
+                                    Style="{StaticResource PrimaryButtonStyle}"
+                                    Click="StartButton_Click"
+                                    Width="300"
+                                    FontSize="16"
+                                    Grid.Column="0"/>
+                            <Button x:Name="AdvancedViewButton"
+                                    Content="&#xE713;"  
+                                    Style="{StaticResource SecondaryButtonStyle}"
+                                    Width="44"
+                                    Height="44"
+                                    Margin="8,0,0,0"
+                                    ToolTip="Advanced View"
+                                    Click="AdvancedViewButton_Click"
+                                    Grid.Column="1"
+                                    FontFamily="Segoe MDL2 Assets"
+                                    FontSize="18"/>
+                        </Grid>
+                    </StackPanel>
 
-                            <TextBlock Text="Username:" FontSize="15" FontWeight="SemiBold"/>
-                            <TextBox x:Name="UsernameTextBox"/>
-                            <TextBlock Text="API Token:" FontSize="15" FontWeight="SemiBold"/>
-                            <TextBox x:Name="TokenTextBox"/>
-
-                            <StackPanel Orientation="Horizontal" HorizontalAlignment="Center" Margin="0,10,0,0">
-                                <Button x:Name="StartButton" Content="Start Tracking" Click="StartButton_Click"
-                                        Width="329" Height="38" FontSize="16" BorderThickness="2,2,2,2">
-                                    <Button.BorderBrush>
-                                        <LinearGradientBrush EndPoint="0.5,1" StartPoint="0.5,0">
-                                            <GradientStop Color="#FFD69609"/>
-                                            <GradientStop Color="#FFFB0000" Offset="1"/>
-                                        </LinearGradientBrush>
-                                    </Button.BorderBrush>
-                                </Button>
-                            </StackPanel>
-                        </StackPanel>
-                        <!-- Move StatusTextBlock inside the border, at the bottom row -->
-                        <TextBlock x:Name="StatusTextBlock"
-                                   Grid.Row="2"
-                                   Margin="0,12,0,0"
-                                   Foreground="{StaticResource TextBrush}"
-                                   FontWeight="Bold"
-                                   FontSize="14"
-                                   TextAlignment="Center"
-                                   HorizontalAlignment="Center"
-                                   VerticalAlignment="Bottom"
-                                   TextWrapping="Wrap"
-                                   Visibility="Visible"/>
-                    </Grid>
+                    <!-- Advanced View Output (hidden by default, overlays main content) -->
+                    <Border x:Name="AdvancedViewBorder"
+                            Background="{StaticResource SurfaceHoverBrush}"
+                            CornerRadius="8"
+                            Padding="12"
+                            Visibility="Collapsed"
+                            VerticalAlignment="Stretch"
+                            HorizontalAlignment="Stretch"
+                            Grid.Row="0"
+                            Grid.Column="0"
+                            Panel.ZIndex="10"
+                            MaxWidth="600">
+                        <Grid VerticalAlignment="Stretch" HorizontalAlignment="Stretch">
+                            <Grid.RowDefinitions>
+                                <RowDefinition Height="Auto"/>
+                                <RowDefinition Height="*"/>
+                            </Grid.RowDefinitions>
+                            <!-- Close Button in top-right corner -->
+                            <Button x:Name="CloseAdvancedViewButton"
+                                    Content="✕"
+                                    Width="28"
+                                    Height="28"
+                                    HorizontalAlignment="Right"
+                                    VerticalAlignment="Top"
+                                    Margin="0,0,0,0"
+                                    Style="{StaticResource SecondaryButtonStyle}"
+                                    Click="CloseAdvancedViewButton_Click"
+                                    ToolTip="Close Advanced View"
+                                    Grid.Row="0"/>
+                            <ScrollViewer Grid.Row="1" VerticalScrollBarVisibility="Auto" HorizontalScrollBarVisibility="Disabled" Margin="0,8,0,0">
+                                <TextBox x:Name="AdvancedViewTextBox"
+                                         FontFamily="Consolas, Segoe UI Mono, monospace"
+                                         FontSize="13"
+                                         Background="Transparent"
+                                         Foreground="{StaticResource TextPrimaryBrush}"
+                                         BorderThickness="0"
+                                         IsReadOnly="True"
+                                         TextWrapping="Wrap"
+                                         AcceptsReturn="True"
+                                         MinHeight="200"
+                                         Padding="8,4"
+                                         VerticalScrollBarVisibility="Auto"
+                                         HorizontalScrollBarVisibility="Disabled"
+                                         VerticalAlignment="Stretch"
+                                         HorizontalAlignment="Stretch"/>
+                            </ScrollViewer>
+                        </Grid>
+                    </Border>
                 </Grid>
+                
+                <!-- Status -->
+                <TextBlock x:Name="StatusTextBlock"
+                           Grid.Row="3"
+                           Style="{StaticResource BodyStyle}"
+                           FontSize="13"
+                           FontWeight="Medium"
+                           TextAlignment="Center"
+                           HorizontalAlignment="Center"
+                           TextWrapping="Wrap"
+                           Margin="0,32,0,0"
+                           Visibility="Visible"/>
             </Grid>
         </Border>
     </Grid>
