@@ -9,6 +9,7 @@ namespace ExodusHubKillTrackerWPF
         public string GameLogPath { get; set; }
         public string Username { get; set; }
         public string Token { get; set; }
+        public bool PlayKillSound { get; set; } = true; // Add this property
     }
 
     public static class UserSettingsManager

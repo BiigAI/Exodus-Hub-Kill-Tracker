@@ -326,16 +326,18 @@
                             <Grid.ColumnDefinitions>
                                 <ColumnDefinition Width="*"/>
                                 <ColumnDefinition Width="Auto"/>
+                                <ColumnDefinition Width="Auto"/>
+                                <ColumnDefinition Width="Auto"/> <!-- Add new column for KillSound button -->
                             </Grid.ColumnDefinitions>
-                            <Button x:Name="StartButton" 
+                            <Button x:Name="StartTrackingButton" 
                                     Content="Start Tracking" 
                                     Style="{StaticResource PrimaryButtonStyle}"
                                     Click="StartButton_Click"
                                     Width="300"
                                     FontSize="16"
-                                    Grid.Column="0"/>
+                                    Grid.Column="0" HorizontalAlignment="Left"/>
                             <Button x:Name="AdvancedViewButton"
-                                    Content="&#xE713;"  
+                                    Content="&#xE943;"  
                                     Style="{StaticResource SecondaryButtonStyle}"
                                     Width="44"
                                     Height="44"
@@ -345,7 +347,37 @@
                                     Grid.Column="1"
                                     FontFamily="Segoe MDL2 Assets"
                                     FontSize="18"/>
+                            <Button x:Name="TestKillSoundButton"
+                                    Content="&#xE7F5;" 
+                                    Style="{StaticResource SecondaryButtonStyle}"
+                                    Width="44"
+                                    Height="44"
+                                    Margin="8,0,0,0"
+                                    Click="TestKillSoundButton_Click"
+                                    ToolTip="Test Kill Sound (Debug)"
+                                    FontFamily="Segoe MDL2 Assets"
+                                    FontSize="18"
+                                    Visibility="Collapsed"
+                                    Grid.Column="2"/>
+                            <!-- New Kill Sound Toggle Button -->
+                            <Button x:Name="KillSoundButton"
+                                    Content="&#xE767;"  
+                                    Style="{StaticResource SecondaryButtonStyle}"
+                                    Width="44"
+                                    Height="44"
+                                    Margin="8,0,0,0"
+                                    Click="KillSoundButton_Click"
+                                    ToolTip="Toggle Kill Sound"
+                                    FontFamily="Segoe MDL2 Assets"  
+                                    FontSize="18"
+                                    Grid.Column="3"/>
                         </Grid>
+
+                        <!-- Remove the old KillSoundCheckBox -->
+                        <!-- <CheckBox x:Name="KillSoundCheckBox"
+                                  Content="Play Kill Sound"
+                                  IsChecked="{Binding PlayKillSound, Mode=TwoWay}"
+                                  Margin="10"/> -->
                     </StackPanel>
 
                     <!-- Advanced View Output (hidden by default, overlays main content) -->

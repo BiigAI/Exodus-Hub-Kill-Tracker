@@ -13,6 +13,13 @@
   <ItemGroup>
     <None Remove="Resources\exodus-light.ico" />
     <None Remove="Resources\exodus-removebg-preview.png" />
+    <None Remove="Resources\killsound.wav" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Content Include="Resources\killsound.wav">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
   </ItemGroup>
 
   <ItemGroup>

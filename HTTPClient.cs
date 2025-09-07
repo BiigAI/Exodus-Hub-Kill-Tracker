@@ -10,13 +10,14 @@ namespace ExodusHub_Kill_Tracker
         private readonly HttpClient _client;
         private string _apiBaseUrl; // Store the base API URL
         private string _authToken;
-        private const string CLIENT_VERSION = "B1";
+        private const string CLIENT_VERSION = "B2";
 
         // Add public static property to expose version
         public static string Version => CLIENT_VERSION;
 
-        //public HTTPClient(string apiUrl = "http://localhost:3000/api", string authToken = null)
-        public HTTPClient(string apiUrl = "https://sc.exoduspmc.org/api", string authToken = null)
+        
+       //public HTTPClient(string apiUrl = "http://localhost:3000/api", string authToken = null)
+       public HTTPClient(string apiUrl = "https://sc.exoduspmc.org/api", string authToken = null)
         {
             _client = new HttpClient();
             _apiBaseUrl = apiUrl.TrimEnd('/');
